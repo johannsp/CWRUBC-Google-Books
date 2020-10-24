@@ -50,13 +50,13 @@ function SavedBooks() {
   return (
     <Container fluid>
       <Row>
-        <Col size="md-6">
+        <Col size="md-12">
           <Jumbotron>
-            <h1>(React) Google Books Search</h1>
-            <h2>Search for and save books of interest</h2>
+            <h3>(React) Google Books Search</h3>
+            <h4>Search for and save books of interest</h4>
           </Jumbotron>
         </Col>
-        <Col size="md-6 sm-12">
+        <Col size="md-12 sm-12">
           <Jumbotron>
             <h1>Results List</h1>
           </Jumbotron>

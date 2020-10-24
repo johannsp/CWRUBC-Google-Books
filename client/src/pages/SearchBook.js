@@ -19,7 +19,8 @@ function SearchBook() {
     authors: [],
     description: "",
     image: "",
-    link: ""
+    link: "",
+    id: ""
   })
 
   // Load all books and store them with setBooks
@@ -86,7 +87,7 @@ function SearchBook() {
   function handleFormSubmit(event) {
     event.preventDefault();
     if (formObject.title) {
-      googleBooksAPI.searchTitle(formObject.title)
+      googleBooksAPI.search(formObject.title)
         .then(res => {
           console.log("∞° res.data=\n", res.data);
           setBooks(res.data)
@@ -108,10 +109,10 @@ function SearchBook() {
   return (
     <Container fluid>
       <Row>
-        <Col size="md-6">
+        <Col size="md-12">
           <Jumbotron>
-            <h1>(React) Google Books Search</h1>
-            <h2>Search for and save books of interest</h2>
+            <h3>(React) Google Books Search</h3>
+            <h4>Search for and save books of interest</h4>
           </Jumbotron>
           <form>
             {/* inputs should be updated to be controlled inputs */}
@@ -128,7 +129,7 @@ function SearchBook() {
             </FormBtn>
           </form>
         </Col>
-        <Col size="md-6 sm-12">
+        <Col size="md-12 sm-12">
           <Jumbotron>
             <h1>Results List</h1>
           </Jumbotron>
@@ -143,9 +144,9 @@ function SearchBook() {
                         {book.title} by
                         </strong>
                         <List>
-                        {book.authors.map(author => {
+                        {book.authors.map((author, index) => {
                           return (
-                            <ListItem>author</ListItem>
+                            <ListItem key={`${author}=${index}`}>{author}</ListItem>
                           );
                         })}
                         </List>
