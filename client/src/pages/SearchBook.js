@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Jumbotron from "../components/Jumbotron";
-import DeleteBtn from "../components/DeleteBtn";
+import SaveBtn from "../components/SaveBtn";
 import ViewBtn from "../components/ViewBtn";
 import databaseAPI from "../utils/databaseAPI";
+import googleBooksAPI from "../utils/googleBooksAPI";
 import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
-import { Input, TextArea, FormBtn } from "../components/Form";
+import { Input, FormBtn } from "../components/Form";
 
-function Books() {
+function SearchBook() {
   // Setting our component's initial state
   const [books, setBooks] = useState([])
 
@@ -22,24 +23,52 @@ function Books() {
   })
 
   // Load all books and store them with setBooks
-  useEffect(() => {
-    loadBooks()
-  }, [])
+  /* {{{ **
+  ** useEffect(() => {
+  **   loadBooks()
+  ** }, [])
+  ** }}} */
 
-  // Loads all books and sets them to books
-  function loadBooks() {
-    databaseAPI.getBooks()
-      .then(res => 
-        setBooks(res.data)
-      )
-      .catch(err => console.log(err));
-  };
+  /* {{{ **
+  ** // Loads all books and sets them to books
+  ** function loadBooks() {
+  **   databaseAPI.getBooks()
+  **     .then(res => 
+  **       setBooks(res.data)
+  **     )
+  **     .catch(err => console.log(err));
+  ** };
+  ** 
+  ** // Delete book by id
+  ** function deleteBook(id) {
+  **   databaseAPI.deleteBook(id)
+  **     .then(res => loadBooks())
+  **     .catch(err => console.log(err));
+  ** };
+  ** }}} */
 
-  // Delete book by id
-  function deleteBook(id) {
-    databaseAPI.deleteBook(id)
-      .then(res => loadBooks())
-      .catch(err => console.log(err));
+  // Save selected book
+  function saveBook() {
+    if (formObject.title) {
+      databaseAPI.saveBook({
+        title: formObject.title,
+        authors: formObject.authors,
+        description: formObject.description,
+        image: formObject.image,
+        link: formObject.link,
+      })
+        .then(() => setFormObject({
+          title: "",
+          authors: [],
+          description: "",
+          image: "",
+          link: ""
+        }))
+        /* {{{ **
+        ** .then(() => loadBooks())
+        ** }}} */
+        .catch(err => console.log(err));
+    }
   };
 
   function viewBook() {
@@ -56,12 +85,12 @@ function Books() {
   // then refresh books list from database
   function handleFormSubmit(event) {
     event.preventDefault();
-    if (formObject.title && formObject.author) {
-      databaseAPI.saveBook({
-        title: formObject.title,
-        author: formObject.author,
-        synopsis: formObject.synopsis
-      })
+    if (formObject.title) {
+      googleBooksAPI.searchTitle(formObject.title)
+        .then(res => {
+          console.log("∞° res.data=\n", res.data);
+          setBooks(res.data)
+        })
         .then(() => setFormObject({
           title: "",
           authors: [],
@@ -69,7 +98,9 @@ function Books() {
           image: "",
           link: ""
         }))
-        .then(() => loadBooks())
+        /* {{{ **
+        ** .then(() => loadBooks())
+        ** }}} */
         .catch(err => console.log(err));
     }
   };
@@ -106,13 +137,32 @@ function Books() {
               {books.map(book => {
                 return (
                   <ListItem key={book._id}>
-                    <a href={"/books/" + book._id}>
-                      <strong>
-                        {book.title} by {book.author}
-                      </strong>
-                    </a>
-                    <DeleteBtn onClick={() => deleteBook(book._id)} />
-                    <ViewBtn onClick={() => viewBook(book._id)} />
+                    <Row>
+                      <Col size="md-10 sm-12">
+                        <strong>
+                        {book.title} by
+                        </strong>
+                        <List>
+                        {book.authors.map(author => {
+                          return (
+                            <ListItem>author</ListItem>
+                          );
+                        })}
+                        </List>
+                      </Col>
+                      <Col size="md-2 sm-12">
+                        <SaveBtn onClick={() => saveBook(book._id)} />
+                        <ViewBtn onClick={() => viewBook(book._id)} />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col size="md-3 sm-12">
+                      <img alt="Book" src={book.image} className="img-fluid" />
+                      </Col>
+                      <Col size="md-9 sm-12">
+                      {book.description}
+                      </Col>
+                    </Row>
                   </ListItem>
                 );
               })}
@@ -126,4 +176,4 @@ function Books() {
   );
 }
 
-export default Books;
+export default SearchBook;

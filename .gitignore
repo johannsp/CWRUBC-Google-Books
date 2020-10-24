@@ -23,6 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local preferences
+.env
 .vimrc
 reference/**
 ExampleProto/**

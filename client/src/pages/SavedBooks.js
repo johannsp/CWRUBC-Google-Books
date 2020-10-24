@@ -6,19 +6,21 @@ import databaseAPI from "../utils/databaseAPI";
 import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
 
-function Books() {
+function SavedBooks() {
   // Setting our component's initial state
   const [books, setBooks] = useState([])
 
-  // update the initial state to provide values for
-  // the controls in the form (use empty strings)
-  const [formObject, setFormObject] = useState({
-    title: "",
-    authors: [],
-    description: "",
-    image: "",
-    link: ""
-  })
+  /* {{{ **
+  ** // update the initial state to provide values for
+  ** // the controls in the form (use empty strings)
+  ** const [formObject, setFormObject] = useState({
+  **   title: "",
+  **   authors: [],
+  **   description: "",
+  **   image: "",
+  **   link: ""
+  ** })
+  ** }}} */
 
   // Load all books and store them with setBooks
   useEffect(() => {
@@ -63,13 +65,32 @@ function Books() {
               {books.map(book => {
                 return (
                   <ListItem key={book._id}>
-                    <a href={"/books/" + book._id}>
-                      <strong>
-                        {book.title} by {book.author}
-                      </strong>
-                    </a>
-                    <DeleteBtn onClick={() => deleteBook(book._id)} />
-                    <ViewBtn onClick={() => viewBook(book._id)} />
+                    <Row>
+                      <Col size="md-10 sm-12">
+                        <strong>
+                        {book.title} by
+                        </strong>
+                        <List>
+                        {book.authors.map(author => {
+                          return (
+                            <ListItem>author</ListItem>
+                          );
+                        })}
+                        </List>
+                      </Col>
+                      <Col size="md-2 sm-12">
+                        <DeleteBtn onClick={() => deleteBook(book._id)} />
+                        <ViewBtn onClick={() => viewBook(book._id)} />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col size="md-3 sm-12">
+                      <img alt="Book" src={book.image} className="img-fluid" />
+                      </Col>
+                      <Col size="md-9 sm-12">
+                      {book.description}
+                      </Col>
+                    </Row>
                   </ListItem>
                 );
               })}
@@ -83,4 +104,4 @@ function Books() {
   );
 }
 
-export default Books;
+export default SavedBooks;
