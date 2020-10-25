@@ -1,29 +1,36 @@
-# Create React Express App
+# Google-Books
 
-## About This Boilerplate
+Google Books search React app
 
-This setup allows for a Node/Express/React app which can be easily deployed to Heroku.
+Heroku link:
+https://salty-basin-52214.herokuapp.com/
 
-The front-end React app will auto-reload as it's updated via webpack dev server, and the backend Express app will auto-reload independently with nodemon.
+[![Google-Books-React-Web-App-preview-20201024.png](https://i.postimg.cc/W3f7ZDFt/Google-Books-React-Web-App-preview-20201024.png)](https://postimg.cc/7G078ZNy)
 
-## Starting the app locally
+## Table of Contents
+- [Installation](https://github.com/johannsp/CWRUBC-Google-Books#Installation) 
+- [License](https://github.com/johannsp/CWRUBC-Google-Books#License) 
+- [Badges](https://github.com/johannsp/CWRUBC-Google-Books#Badges) 
+- [Contributing](https://github.com/johannsp/CWRUBC-Google-Books#Contributing) 
 
-Start by installing front and backend dependencies. While in this directory, run the following command:
+## Installation
 
-```
-npm install
-```
+Clone this repository and initialize any required Node modules by running
+> npm install
 
-This should install node modules within the server and the client folder.
+## License
 
-After both installations complete, run the following command in your terminal:
+This project is licensed under the MIT License -
+see the LICENSE.md file for details
 
-```
-npm start
-```
+## Badges
 
-Your app should now be running on <http://localhost:3000>. The Express server should intercept any AJAX requests from the client.
+[![Known Vulnerabilities](https://snyk.io/test/github/johannsp/CWRUBC-Google-Books/badge.svg?targetFile=package.json)](https://snyk.io/test/github/johannsp/CWRUBC-Google-Books)
+[![GitHub issues](https://img.shields.io/github/issues/johannsp/CWRUBC-Google-Books)](https://img.shields.io/github/issues/johannsp/CWRUBC-Google-Books)
+[![GitHub forks](https://img.shields.io/github/forks/johannsp/CWRUBC-Google-Books)](https://img.shields.io/github/forks/johannsp/CWRUBC-Google-Books)
+[![GitHub license](https://img.shields.io/github/license/johannsp/CWRUBC-Google-Books)](https://img.shields.io/github/license/johannsp/CWRUBC-Google-Books)
 
-## Deployment (Heroku)
+## Contributing
 
-To deploy, simply add and commit your changes, and push to Heroku. As is, the NPM scripts should take care of the rest.
+After cloning this repository, push to a custom branch and create a pull request.
+
