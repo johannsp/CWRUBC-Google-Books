@@ -49,22 +49,23 @@ function SearchBook() {
   ** }}} */
 
   // Save selected book
-  function saveBook() {
-    if (formObject.title) {
-      databaseAPI.saveBook({
-        title: formObject.title,
-        authors: formObject.authors,
-        description: formObject.description,
-        image: formObject.image,
-        link: formObject.link,
-      })
-        .then(() => setFormObject({
-          title: "",
-          authors: [],
-          description: "",
-          image: "",
-          link: ""
-        }))
+  function saveBook(id) {
+    const bookIdx = books.reduce((acc, cur, idx) => {
+      if (cur._id === id) {
+        acc = idx;
+      }
+      return acc;
+    }, -1);
+
+    console.log(`∞° books[bookIdx=${bookIdx}]=\n`, books[bookIdx]);
+    if ((bookIdx >= 0) && !(books[bookIdx].hasOwnProperty("saved"))) {
+      const book = books[bookIdx];
+      databaseAPI.saveBook(book)
+        .then(() => {
+          const updBooks = books;
+          updBooks[bookIdx].saved = true;
+          setBooks(updBooks);
+        })
         /* {{{ **
         ** .then(() => loadBooks())
         ** }}} */
@@ -72,8 +73,16 @@ function SearchBook() {
     }
   };
 
-  function viewBook() {
-    // add code here to remove a book using databaseAPI
+  function viewBook(id) {
+    const link = books.reduce((acc, cur) => {
+      if (cur._id === id) {
+        acc = cur.link;
+      }
+      return acc;
+    }, "");
+    if (link) {
+      window.open(link)
+    }
   };
 
   // Handles updating component state
@@ -89,7 +98,6 @@ function SearchBook() {
     if (formObject.title) {
       googleBooksAPI.search(formObject.title)
         .then(res => {
-          console.log("∞° res.data=\n", res.data);
           setBooks(res.data)
         })
         .then(() => setFormObject({
@@ -125,7 +133,7 @@ function SearchBook() {
               disabled={!(formObject.title)}
               onClick={handleFormSubmit}
             >
-              Submit Book
+              Search for Book
             </FormBtn>
           </form>
         </Col>
@@ -152,7 +160,10 @@ function SearchBook() {
                         </List>
                       </Col>
                       <Col size="md-2 sm-12">
-                        <SaveBtn onClick={() => saveBook(book._id)} />
+                        <SaveBtn
+                          disabled={book.hasOwnProperty("saved")}
+                          onClick={() => saveBook(book._id)}
+                        />
                         <ViewBtn onClick={() => viewBook(book._id)} />
                       </Col>
                     </Row>

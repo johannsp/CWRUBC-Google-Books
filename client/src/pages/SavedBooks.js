@@ -43,8 +43,16 @@ function SavedBooks() {
       .catch(err => console.log(err));
   };
 
-  function viewBook() {
-    // add code here to remove a book using databaseAPI
+  function viewBook(id) {
+    const link = books.reduce((acc, cur) => {
+      if (cur._id === id) {
+        acc = cur.link;
+      }
+      return acc;
+    }, "");
+    if (link) {
+      window.open(link)
+    }
   };
 
   return (
@@ -71,9 +79,9 @@ function SavedBooks() {
                         {book.title} by
                         </strong>
                         <List>
-                        {book.authors.map(author => {
+                        {book.authors.map((author, index) => {
                           return (
-                            <ListItem>author</ListItem>
+                            <ListItem key={`${author}=${index}`}>{author}</ListItem>
                           );
                         })}
                         </List>

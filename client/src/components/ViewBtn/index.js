@@ -5,7 +5,7 @@ import "./style.css";
 // That way we don't have to define them all individually
 function ViewBtn(props) {
   return (
-    <span className="view-btn" {...props} role="button" tabIndex="1">
+    <span className="view-btn btn btn-primary" {...props} role="button" tabIndex="1">
       View
     </span>
   );
